@@ -22,7 +22,8 @@ abstract class BaseTitleActivity : BaseActivity() {
     private fun setBackIcon() {
         if (isShowBack()) {
             toolbar_back.setOnClickListener { onBackPressed() }
-            toolbar_back.visibility = View.VISIBLE
+        } else {
+            toolbar_back.visibility = View.GONE
         }
     }
 

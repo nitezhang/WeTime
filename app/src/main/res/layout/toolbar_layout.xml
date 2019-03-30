@@ -9,13 +9,13 @@
     android:minHeight="?attr/actionBarSize"
     app:contentInsetStart="0dp">
     <!--自定义toolbar的title 和subtitle -->
-    <ImageView
+    <ImageButton
         android:id="@+id/toolbar_back"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="15dp"
-        android:visibility="gone"
+        android:scaleType="fitCenter"
         android:src="@drawable/icon_back" />
 
     <TextView
@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
