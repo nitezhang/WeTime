@@ -14,7 +14,7 @@ class MainActivity : BaseTitleActivity() {
             activity.finish()
         }
     }
-        //...
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         toolbar_title.text = "首页"
