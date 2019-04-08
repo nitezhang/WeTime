@@ -25,7 +25,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
 
@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     //高德2d地图
-    implementation 'com.amap.api:map2d:latest.integration'
+    implementation 'com.amap.api:map2d:5.2.0'
     //高德定位
-    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:location:4.5.1'
 }
