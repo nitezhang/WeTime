@@ -16,7 +16,7 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('./key/WeTimeKey')
+            storeFile file('key/WeTimeKey')
             storePassword '123123'
             keyAlias 'Debug'
             keyPassword '123123'
