@@ -3,6 +3,7 @@
 # proguardFiles setting in build.gradle.
 #
 # For more details, see
+
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # If your project uses WebView with JS, uncomment the following
@@ -24,9 +25,7 @@
 -keep class com.amap.api.location.**{*;}
 -keep class com.amap.api.fence.**{*;}
 -keep class com.autonavi.aps.amapapi.model.**{*;}
-#搜索
--keep   class com.amap.api.services.**{*;}
-#2D地图
--keep class com.amap.api.maps2d.**{*;}
--keep class com.amap.api.mapcore2d.**{*;}
+##2D地图
+#-keep class com.amap.api.maps2d.**{*;}
+#-keep class com.amap.api.mapcore2d.**{*;}
 
