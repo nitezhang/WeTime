@@ -2,12 +2,11 @@ package com.nitezhang.wetime.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import com.amap.api.location.AMapLocation
-import com.amap.api.location.AMapLocationClientOption
 import com.nitezhang.wetime.R
-import com.nitezhang.wetime.utils.LocationUtil
+import com.nitezhang.wetime.utils.MapUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+
 
 class MainActivity : BaseTitleActivity() {
 
@@ -23,13 +22,10 @@ class MainActivity : BaseTitleActivity() {
         super.onCreate(savedInstanceState)
         toolbar_title.text = "首页"
         toolbar_menu.text = "编辑"
-        LocationUtil.onCreate(applicationContext,AMapLocationClientOption().apply { isOnceLocationLatest = true })
-        LocationUtil.setListener(object:LocationUtil.LocationListener{
-            override fun onSuccess(location: AMapLocation) {
-                tv_content.text = location.address
-            }
+        map_view.onCreate(savedInstanceState)
+        val map = map_view.map
+        MapUtil.setAMap(map)
 
-        })
     }
 
     override fun getContentView(): Int {
@@ -38,6 +34,6 @@ class MainActivity : BaseTitleActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        LocationUtil.onDestroy()
+        map_view.onDestroy()
     }
 }

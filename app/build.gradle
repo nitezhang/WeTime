@@ -47,8 +47,8 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    //高德2d地图
-//    implementation 'com.amap.api:map2d:5.2.0'
+    //高德地图
+    implementation 'com.amap.api:3dmap:6.8.0'
     //高德定位
     implementation 'com.amap.api:location:4.5.1'
 }
