@@ -20,6 +20,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+## 输出更多信息
+#-verbose
+# 不进行优化
+-dontoptimize
+## 不进行预校验
+#-dontpreverify
+
 #############高德地图################
 #3D 地图 V5.0.0之后：
 -keep   class com.amap.api.maps.**{*;}
@@ -31,12 +39,5 @@
 -keep class com.amap.api.fence.**{*;}
 -keep class com.autonavi.aps.amapapi.model.**{*;}
 
-#搜索
--keep   class com.amap.api.services.**{*;}
-
-
-#导航
--keep class com.amap.api.navi.**{*;}
--keep class com.autonavi.**{*;}
 
 
