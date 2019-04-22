@@ -2,7 +2,6 @@ package com.nitezhang.wetime.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
@@ -13,7 +12,6 @@ import com.nitezhang.wetime.R
 import com.nitezhang.wetime.ui.fragment.NoteFragment
 import com.nitezhang.wetime.ui.fragment.ScheduleFragment
 import com.nitezhang.wetime.ui.fragment.UserFragment
-import com.nitezhang.wetime.utils.NLog
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -81,7 +79,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setMainIcon(position: Int) {
-        NLog.d(TAG, "setMainIcon: position = $position")
         img_btn_schedule.setImageResource(R.drawable.icon_main_schedule)
         img_btn_note.setImageResource(R.drawable.icon_main_note)
         img_btn_user.setImageResource(R.drawable.icon_main_user)
