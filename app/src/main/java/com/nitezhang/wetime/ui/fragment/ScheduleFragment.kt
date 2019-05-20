@@ -10,7 +10,7 @@ class ScheduleFragment : BaseFragment() {
         return R.layout.fragment_schedule
     }
 
-    override fun onCreateView(view: View) {
+    override fun View.onCreateView() {
     }
 
 }

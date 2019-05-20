@@ -68,4 +68,6 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //状态栏适配
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
+    //本地数据库
+    implementation'org.litepal.android:kotlin:3.0.0'
 }

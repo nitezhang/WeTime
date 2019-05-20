@@ -15,11 +15,11 @@ abstract class BaseFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         NLog.d(TAG, NLog.TEST, "onCreateView: layoutId = ${getLayoutId()}")
         val view = inflater.inflate(getLayoutId(), container, false)
-        onCreateView(view)
+        view.onCreateView()
         return view
     }
 
-    abstract fun onCreateView(view: View)
+    abstract fun View.onCreateView()
 
     abstract fun getLayoutId(): Int
 

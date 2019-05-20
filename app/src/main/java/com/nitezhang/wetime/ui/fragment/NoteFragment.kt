@@ -18,14 +18,21 @@ class NoteFragment : BaseFragment() {
         return R.layout.fragment_note
     }
 
-    override fun onCreateView(view: View) {
-        recyclerView = view.rv_note
-        view.setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
-        (0 until 100).forEach {
-            notes += NoteInfo(it.toString())
-        }
+    override fun View.onCreateView() {
+        addData()
+        recyclerView = rv_note
+        setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.adapter = NoteAdapter(notes)
+        tv_add.setOnClickListener {
+
+        }
+    }
+
+    private fun addData() {
+        (0 until 100).forEach {
+            notes += NoteInfo(System.currentTimeMillis().toString())
+        }
     }
 
 
