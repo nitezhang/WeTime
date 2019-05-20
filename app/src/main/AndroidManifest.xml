@@ -39,6 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".translation.TranslationActivity" />
         <!--高德地图start-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
