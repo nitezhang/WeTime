@@ -6,8 +6,6 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.ui.fragment.NoteFragment
 import com.nitezhang.wetime.ui.fragment.ScheduleFragment
@@ -19,15 +17,21 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
 
     companion object {
-        private const val ITEM_SCHEDULE = 0
-        private const val ITEM_NOTE = 1
-        private const val ITEM_USER = 2
+        private const val ITEM_SCHEDULE = "schedule_fragment"
+        private const val ITEM_NOTE = "note_fragment"
+        private const val ITEM_USER = "user_fragment"
         fun start(activity: BaseActivity) {
             val intent = Intent(activity, MainActivity::class.java)
             activity.startActivity(intent)
             activity.finish()
         }
+
     }
+
+    private var scheduleFragment: ScheduleFragment? = null
+    private var noteFragment: NoteFragment? = null
+    private var userFragment: UserFragment? = null
+    private var mFragmentId = ITEM_USER
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,50 +39,114 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         img_btn_schedule.setOnClickListener(this)
         img_btn_note.setOnClickListener(this)
         img_btn_user.setOnClickListener(this)
-        vp_main.adapter = fragmentStateAdapter
-        vp_main.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                setMainIcon(position + if (positionOffsetPixels > 500) 1 else 0)
-            }
-        })
-        setMainIcon(ITEM_SCHEDULE)
+        if (savedInstanceState != null) {
+            scheduleFragment =
+                supportFragmentManager.getFragment(savedInstanceState, ITEM_SCHEDULE) as ScheduleFragment?
+            noteFragment = supportFragmentManager.getFragment(savedInstanceState, ITEM_NOTE) as NoteFragment?
+            userFragment = supportFragmentManager.getFragment(savedInstanceState, ITEM_USER) as UserFragment?
+            mFragmentId = savedInstanceState.getString("fragmentId") as String
+        }
+        showFragment(ITEM_SCHEDULE)
+
+
+
     }
+
+
+    private fun showFragment(fragmentId: String) {
+        setMainIcon(fragmentId)
+        if (fragmentId == mFragmentId) {
+            return
+        }
+        val transaction = supportFragmentManager.beginTransaction()
+        when (fragmentId) {
+            ITEM_SCHEDULE -> {
+                hideLastFragment(mFragmentId)
+                var fragment = scheduleFragment
+                if (fragment == null) {
+                    fragment = ScheduleFragment()
+                    transaction.add(R.id.fg_main, fragment)
+                    scheduleFragment = fragment
+                } else {
+                    transaction.show(fragment)
+                }
+            }
+            ITEM_NOTE -> {
+                hideLastFragment(mFragmentId)
+                var fragment = noteFragment
+                if (fragment == null) {
+                    fragment = NoteFragment()
+                    transaction.add(R.id.fg_main, fragment)
+                    noteFragment = fragment
+                } else {
+                    transaction.show(fragment)
+                }
+            }
+            else -> {
+                hideLastFragment(mFragmentId)
+                var fragment = userFragment
+                if (fragment == null) {
+                    fragment = UserFragment()
+                    transaction.add(R.id.fg_main, fragment)
+                    userFragment = fragment
+                } else {
+                    transaction.show(fragment)
+                }
+            }
+        }
+        transaction.commit()
+        mFragmentId = fragmentId
+
+    }
+
+    private fun hideLastFragment(fragmentId: String) {
+        val transaction = supportFragmentManager.beginTransaction()
+        val fragment = when (fragmentId) {
+            ITEM_SCHEDULE -> scheduleFragment
+            ITEM_NOTE -> noteFragment
+            else -> userFragment
+        }
+        if (fragment != null) {
+            transaction.hide(fragment)
+        }
+
+        transaction.commit()
+
+    }
+
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.img_btn_schedule -> {
-                vp_main.currentItem = ITEM_SCHEDULE
-                setMainIcon(ITEM_SCHEDULE)
+                showFragment(ITEM_SCHEDULE)
             }
             R.id.img_btn_note -> {
-                vp_main.currentItem = ITEM_NOTE
-                setMainIcon(ITEM_NOTE)
+                showFragment(ITEM_NOTE)
             }
             R.id.img_btn_user -> {
-                vp_main.currentItem = ITEM_USER
-                setMainIcon(ITEM_USER)
+                showFragment(ITEM_USER)
             }
 
         }
     }
+//
+//    private val fragmentStateAdapter = object : FragmentStateAdapter(this) {
+//
+//        override fun getItem(position: Int): Fragment {
+//            return when (position) {
+//                ITEM_SCHEDULE -> ScheduleFragment()
+//                ITEM_NOTE -> NoteFragment()
+//                else -> UserFragment()
+//            }
+//        }
+//
+//        override fun getItemCount(): Int {
+//            return 3
+//        }
+//
+//    }
 
-    private val fragmentStateAdapter = object : FragmentStateAdapter(this) {
-
-        override fun getItem(position: Int): Fragment {
-            return when (position) {
-                ITEM_SCHEDULE -> ScheduleFragment()
-                ITEM_NOTE -> NoteFragment()
-                else -> UserFragment()
-            }
-        }
-
-        override fun getItemCount(): Int {
-            return 3
-        }
-
-    }
-
-    private fun setMainIcon(position: Int) {
+    private fun setMainIcon(position: String) {
         img_btn_schedule.setImageResource(R.drawable.icon_main_schedule)
         img_btn_note.setImageResource(R.drawable.icon_main_note)
         img_btn_user.setImageResource(R.drawable.icon_main_user)
@@ -98,5 +166,22 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show()
             backTime = nowTime
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        var fragment: Fragment? = scheduleFragment
+        if (fragment != null) {
+            supportFragmentManager.putFragment(outState, ITEM_SCHEDULE, fragment)
+        }
+        fragment = noteFragment
+        if (fragment != null) {
+            supportFragmentManager.putFragment(outState, ITEM_NOTE, fragment)
+        }
+        fragment = userFragment
+        if (fragment != null) {
+            supportFragmentManager.putFragment(outState, ITEM_USER, fragment)
+        }
+        outState.putString("fragmentId", mFragmentId)
+        super.onSaveInstanceState(outState)
     }
 }

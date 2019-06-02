@@ -14,8 +14,8 @@ import com.nitezhang.wetime.utils.TimeUtil
 import kotlinx.android.synthetic.main.item_note.view.*
 
 
-class NoteAdapter(val activity: BaseActivity, private val notes: ArrayList<NoteInfo>) :
-    RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+class ScheduleAdapter(val activity: BaseActivity, private val notes: ArrayList<NoteInfo>) :
+    RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.content.text = notes[position].content
         if (position == 0) {
@@ -31,7 +31,7 @@ class NoteAdapter(val activity: BaseActivity, private val notes: ArrayList<NoteI
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false)
 
         return ViewHolder(layout)
     }
