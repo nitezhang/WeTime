@@ -21,16 +21,7 @@ class UserFragment : BaseFragment() {
     }
 
     override fun View.onCreateView() {
-        rv_test.layoutManager = LinearLayoutManager(context).apply { orientation = RecyclerView.VERTICAL }
-        val adapter = TestAdapter(context!!)
-        recyclerView = rv_test
-        recyclerView.adapter = adapter
-        val layout = LayoutInflater.from(context).inflate(R.layout.layout_map, recyclerView, false)
-        adapter.mHeaderView = layout
-        setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
-        layout.map_view.onCreate(null)
-        val map = layout.map_view.map
-        MapUtil.setAMap(map)
+
 
 
     }

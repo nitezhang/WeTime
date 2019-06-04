@@ -10,23 +10,20 @@ import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.NoteInfo
 import com.nitezhang.wetime.ui.activity.BaseActivity
 import com.nitezhang.wetime.ui.activity.NoteDetailActivity
+import com.nitezhang.wetime.ui.fragment.BaseFragment
 import com.nitezhang.wetime.utils.TimeUtil
 import kotlinx.android.synthetic.main.item_note.view.*
 
 
-class NoteAdapter(val activity: BaseActivity, private val notes: ArrayList<NoteInfo>) :
+class NoteAdapter(val activity: BaseActivity, val fragment: BaseFragment, var notes: List<NoteInfo>) :
     RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.content.text = notes[position].content
-        if (position == 0) {
-            holder.content.text =
-                "${notes[position].content}\n${notes[position].content}\n${notes[position].content}\n${notes[position].content}\n${notes[position].content}\n${notes[position].content}\n"
-        } else if (position == 4) {
-            holder.content.text = "${notes[position].content}\n${notes[position].content}"
-        }
         holder.time.text = TimeUtil.getNoteTime(notes[position].time)
         holder.itemView.setOnClickListener {
-            activity.startActivity(Intent(activity, NoteDetailActivity::class.java))
+            fragment.startActivityForResult(Intent(activity, NoteDetailActivity::class.java).apply {
+                putExtra("note", notes[position])
+            }, position)
         }
     }
 
