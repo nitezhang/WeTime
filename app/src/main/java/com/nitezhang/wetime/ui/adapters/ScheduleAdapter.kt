@@ -24,8 +24,8 @@ class ScheduleAdapter(val activity: BaseActivity, val fragment: BaseFragment, va
         holder.time.text = TimeUtil.getNoteTime(schedules[position].time)
         holder.itemView.setOnClickListener {
             fragment.startActivityForResult(Intent(activity, ScheduleDetailActivity::class.java).apply {
-                putExtra("schedule", schedules[position])
-            }, position)
+                putExtra("position", position)
+            }, 1)
         }
     }
 

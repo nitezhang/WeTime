@@ -8,21 +8,25 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.ScheduleInfo
+import com.nitezhang.wetime.data.ScheduleInfoManager
 import kotlinx.android.synthetic.main.activity_schedule_detail.*
 import java.util.*
 
 
 class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
-    private var mSchedule: ScheduleInfo? = null
+    private val calendar = Calendar.getInstance()
+    private var mPosition = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_detail)
-        val schedule = intent.getSerializableExtra("schedule") as ScheduleInfo?
+        mPosition = intent.getIntExtra("position", -1)
         toolbar_delete.setOnClickListener(this)
         toolbar_back.setOnClickListener(this)
-        if (schedule != null) {
-            ed_content.setText(schedule.content)
-            mSchedule = schedule
+        if (mPosition != -1) {
+            ed_content.setText(ScheduleInfoManager.schedules[mPosition].content)
+            calendar.timeInMillis = ScheduleInfoManager.schedules[mPosition].time
+        } else {
+            calendar.timeInMillis = ScheduleInfoManager.calendar.timeInMillis
         }
         ed_content.performClick()
         setTime()
@@ -34,15 +38,21 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setTime() {
+        val sb = StringBuffer()
+        sb.append(
+            String.format(
+                "%02d:%02d",
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE)
+            )
+        )
+        tv_time.text = sb
         //点击"时间"按钮布局 设置时间
         layout_time.setOnClickListener {
             //自定义控件
             val builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.time_dialog, null) as LinearLayout
             val timePicker = view.findViewById(R.id.time_picker) as TimePicker
-            //初始化时间
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
             timePicker.setIs24HourView(true)
             timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
             timePicker.minute = Calendar.MINUTE
@@ -50,11 +60,17 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             builder.setView(view)
             builder.setTitle("设置时间信息")
             builder.setPositiveButton("确  定") { dialog, _ ->
-                val mHour = timePicker.hour
-                val mMinute = timePicker.minute
-                //时间小于10的数字 前面补0 如01:12:00
-                tv_time.text = StringBuilder().append(if (mHour < 10) "0$mHour" else mHour).append(":")
-                    .append(if (mMinute < 10) "0$mMinute" else mMinute).append(":00")
+                val sb = StringBuffer()
+                sb.append(
+                    String.format(
+                        "%02d:%02d",
+                        timePicker.hour,
+                        timePicker.minute
+                    )
+                )
+                tv_time.text = sb
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                calendar.set(Calendar.MINUTE, timePicker.minute)
                 dialog.cancel()
             }
             builder.setNegativeButton("取  消") { dialog, _ -> dialog.cancel() }
@@ -63,17 +79,23 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setDate() {
+        //日期格式
+        val sb = StringBuffer()
+        sb.append(
+            String.format(
+                "%d-%02d-%02d",
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        )
+        tv_date.text = sb
         //点击"日期"按钮布局 设置日期
         layout_date.setOnClickListener {
             //通过自定义控件AlertDialog实现
             val builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.date_dialog, null) as LinearLayout
             val datePicker = view.findViewById(R.id.date_picker) as DatePicker
-            //设置日期简略显示 否则详细显示 包括:星期\周
-//            datePicker.calendarViewShown = false
-            //初始化当前日期
-            val calendar = Calendar.getInstance();
-            calendar.timeInMillis = System.currentTimeMillis()
             datePicker.init(
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH), null
@@ -93,10 +115,9 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
                     )
                 )
                 tv_date.text = sb
-                //赋值后面闹钟使用
-                val mYear = datePicker.year
-                val mMonth = datePicker.month
-                val mDay = datePicker.dayOfMonth
+                calendar.set(Calendar.YEAR, datePicker.year)
+                calendar.set(Calendar.MONTH, datePicker.month)
+                calendar.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
                 dialog.cancel()
             }
             builder.setNegativeButton("取  消") { dialog, _ -> dialog.cancel() }
@@ -106,11 +127,10 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
 
 
     override fun onClick(v: View) {
-        val schedule = mSchedule
         when (v.id) {
             R.id.toolbar_delete -> {
-                if (schedule != null) {
-                    setResult(3, intent.apply { putExtra("schedule", schedule) })
+                if (mPosition != -1) {
+                    ScheduleInfoManager.schedules[mPosition].delete()
                 }
                 finish()
             }
@@ -122,17 +142,19 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        val schedule = mSchedule
         val text = ed_content.text.toString()
-        if (text.isNotEmpty() || schedule != null) {
-            if (text.isEmpty() && schedule != null) {
-                setResult(3)
+        if (text.isNotEmpty() || mPosition != -1) {
+            if (text.isEmpty() && mPosition != -1) {
+                ScheduleInfoManager.schedules[mPosition].delete()
             }
             if (text.isNotEmpty()) {
-                if (schedule == null) {
-                    ScheduleInfo(text).save()
+                if (mPosition == -1) {
+                    ScheduleInfo(text, calendar.timeInMillis).save()
                 } else {
-                    setResult(2, intent.apply { putExtra("content", text) })
+                    val schedule = ScheduleInfoManager.schedules[mPosition]
+                    schedule.content = text
+                    schedule.time = calendar.timeInMillis
+                    schedule.save()
                 }
             }
         }

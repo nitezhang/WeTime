@@ -30,7 +30,7 @@ class NoteDetailActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.toolbar_delete -> {
                 if (note != null) {
-                    setResult(3, intent.apply { putExtra("note", note) })
+                    setResult(3)
                 }
                 finish()
             }
@@ -46,7 +46,7 @@ class NoteDetailActivity : BaseActivity(), View.OnClickListener {
         val text = ed_content.text.toString()
         if (text.isNotEmpty() || note != null) {
             if (text.isEmpty() && note != null) {
-                setResult(3, intent.apply { putExtra("note", note) })
+                setResult(3)
             }
             if (text.isNotEmpty()) {
                 if (note == null) {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gyf.barlibrary.ImmersionBar
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.NoteInfo
+import com.nitezhang.wetime.data.NoteInfoManager
 import com.nitezhang.wetime.ui.activity.BaseActivity
 import com.nitezhang.wetime.ui.activity.NoteDetailActivity
 import com.nitezhang.wetime.ui.adapters.NoteAdapter
@@ -16,7 +17,6 @@ import org.litepal.extension.findAll
 
 
 class NoteFragment : BaseFragment() {
-    private lateinit var notes: List<NoteInfo>
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NoteAdapter
 
@@ -29,7 +29,7 @@ class NoteFragment : BaseFragment() {
         recyclerView = rv_note
         setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        adapter = NoteAdapter(activity as BaseActivity, this@NoteFragment, notes)
+        adapter = NoteAdapter(activity as BaseActivity, this@NoteFragment, NoteInfoManager.notes)
         recyclerView.adapter = adapter
         tv_add.setOnClickListener {
             startActivityForResult(Intent(activity, NoteDetailActivity::class.java), 1)
@@ -38,24 +38,24 @@ class NoteFragment : BaseFragment() {
 
     private fun getData() {
         val data = LitePal.findAll<NoteInfo>()
-        notes = data.reversed()
+        NoteInfoManager.notes = data.reversed()
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 3) {
-            notes[requestCode].delete()
+            NoteInfoManager.notes[requestCode].delete()
         }
         if (resultCode == 2) {
             val content = data!!.getStringExtra("content")
-            val note = notes[requestCode]
+            val note = NoteInfoManager.notes[requestCode]
             note.content = content
             note.time = System.currentTimeMillis()
             note.save()
         }
         getData()
-        adapter.notes = notes
+        adapter.notes = NoteInfoManager.notes
         adapter.notifyDataSetChanged()
     }
 
