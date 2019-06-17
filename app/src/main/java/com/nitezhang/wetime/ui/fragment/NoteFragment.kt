@@ -31,7 +31,10 @@ class NoteFragment : BaseFragment() {
         adapter = NoteAdapter(activity as BaseActivity, this@NoteFragment, NoteInfoManager.notes)
         recyclerView.adapter = adapter
         tv_add.setOnClickListener {
-            startActivityForResult(Intent(activity, NoteDetailActivity::class.java), 1)
+            startActivityForResult(
+                Intent(activity, NoteDetailActivity::class.java).apply { putExtra("from", "add") },
+                1
+            )
         }
         getData()
     }
@@ -52,8 +55,13 @@ class NoteFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         getData()
-
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            getData()
+        }
+    }
 
 }

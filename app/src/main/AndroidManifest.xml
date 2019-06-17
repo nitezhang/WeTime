@@ -22,9 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.NoteRecycleActivity">
+        </activity>
         <activity android:name=".ui.activity.ScheduleDetailActivity">
         </activity>
         <activity android:name=".ui.activity.NoteDetailActivity">
+        </activity>
+        <activity android:name=".ui.activity.NoteRecycleDetailActivity">
         </activity>
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
