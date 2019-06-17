@@ -25,7 +25,6 @@ class NoteFragment : BaseFragment() {
     }
 
     override fun View.onCreateView() {
-        getData()
         recyclerView = rv_note
         setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -34,29 +33,26 @@ class NoteFragment : BaseFragment() {
         tv_add.setOnClickListener {
             startActivityForResult(Intent(activity, NoteDetailActivity::class.java), 1)
         }
+        getData()
     }
 
     private fun getData() {
+        NoteInfoManager.notes = ArrayList()
         val data = LitePal.findAll<NoteInfo>()
-        NoteInfoManager.notes = data.reversed()
-
+        data.sortBy { it.time }
+        for (note in data.reversed()) {
+            if (!note.isDelete) {
+                NoteInfoManager.notes += note
+            }
+        }
+        adapter.notes = NoteInfoManager.notes
+        adapter.notifyDataSetChanged()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == 3) {
-            NoteInfoManager.notes[requestCode].delete()
-        }
-        if (resultCode == 2) {
-            val content = data!!.getStringExtra("content")
-            val note = NoteInfoManager.notes[requestCode]
-            note.content = content
-            note.time = System.currentTimeMillis()
-            note.save()
-        }
         getData()
-        adapter.notes = NoteInfoManager.notes
-        adapter.notifyDataSetChanged()
+
     }
 
 

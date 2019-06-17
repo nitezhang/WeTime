@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nitezhang.wetime.R
-import com.nitezhang.wetime.data.NoteInfo
 import com.nitezhang.wetime.data.ScheduleInfo
 import com.nitezhang.wetime.ui.activity.BaseActivity
-import com.nitezhang.wetime.ui.activity.NoteDetailActivity
 import com.nitezhang.wetime.ui.activity.ScheduleDetailActivity
 import com.nitezhang.wetime.ui.fragment.BaseFragment
 import com.nitezhang.wetime.utils.TimeUtil

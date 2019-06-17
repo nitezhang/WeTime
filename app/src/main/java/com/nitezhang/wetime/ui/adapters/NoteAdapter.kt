@@ -22,8 +22,8 @@ class NoteAdapter(val activity: BaseActivity, val fragment: BaseFragment, var no
         holder.time.text = TimeUtil.getNoteTime(notes[position].time)
         holder.itemView.setOnClickListener {
             fragment.startActivityForResult(Intent(activity, NoteDetailActivity::class.java).apply {
-                putExtra("note", notes[position])
-            }, position)
+                putExtra("position", position)
+            }, 1)
         }
     }
 

@@ -4,19 +4,19 @@ import android.os.Bundle
 import android.view.View
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.NoteInfo
+import com.nitezhang.wetime.data.NoteInfoManager
 import kotlinx.android.synthetic.main.activity_note_detail.*
 
 class NoteDetailActivity : BaseActivity(), View.OnClickListener {
-    private var mNote: NoteInfo? = null
+    private var mPosition = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_detail)
-        val note = intent.getSerializableExtra("note") as NoteInfo?
+        mPosition = intent.getIntExtra("position", -1)
         toolbar_delete.setOnClickListener(this)
         toolbar_back.setOnClickListener(this)
-        if (note != null) {
-            ed_content.setText(note.content)
-            mNote = note
+        if (mPosition != -1) {
+            ed_content.setText(NoteInfoManager.notes[mPosition].content)
         }
         ed_content.performClick()
     }
@@ -26,11 +26,14 @@ class NoteDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val note = mNote
         when (v.id) {
             R.id.toolbar_delete -> {
-                if (note != null) {
-                    setResult(3)
+                if (mPosition != -1) {
+                    val note = NoteInfoManager.notes[mPosition]
+                    note.content = ed_content.text.toString()
+                    note.time = System.currentTimeMillis()
+                    note.isDelete = true
+                    note.save()
                 }
                 finish()
             }
@@ -42,17 +45,19 @@ class NoteDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        val note = mNote
         val text = ed_content.text.toString()
-        if (text.isNotEmpty() || note != null) {
-            if (text.isEmpty() && note != null) {
-                setResult(3)
+        if (text.isNotEmpty() || mPosition != -1) {
+            if (text.isEmpty() && mPosition != -1) {
+                NoteInfoManager.notes[mPosition].delete()
             }
             if (text.isNotEmpty()) {
-                if (note == null) {
+                if (mPosition == -1) {
                     NoteInfo(text).save()
                 } else {
-                    setResult(2, intent.apply { putExtra("content", text) })
+                    val note = NoteInfoManager.notes[mPosition]
+                    note.content = text
+                    note.time = System.currentTimeMillis()
+                    note.save()
                 }
             }
         }
