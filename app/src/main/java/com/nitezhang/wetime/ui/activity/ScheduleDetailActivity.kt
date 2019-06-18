@@ -1,5 +1,6 @@
 package com.nitezhang.wetime.ui.activity
 
+import android.app.AlarmManager
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
@@ -9,6 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.ScheduleInfo
 import com.nitezhang.wetime.data.ScheduleInfoManager
+import com.nitezhang.wetime.utils.AlarmManagerUtil
+import com.nitezhang.wetime.utils.AlarmReceiver
+import com.nitezhang.wetime.utils.NLog
 import kotlinx.android.synthetic.main.activity_schedule_detail.*
 import java.util.*
 
@@ -71,6 +75,7 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
                 tv_time.text = sb
                 calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
                 calendar.set(Calendar.MINUTE, timePicker.minute)
+                calendar.set(Calendar.SECOND, 0)
                 dialog.cancel()
             }
             builder.setNegativeButton("取  消") { dialog, _ -> dialog.cancel() }
@@ -156,8 +161,17 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
                     schedule.time = calendar.timeInMillis
                     schedule.save()
                 }
+                sendAlarmBroadcast(calendar.timeInMillis, text)
             }
         }
         super.onBackPressed()
+    }
+
+    private fun sendAlarmBroadcast(time: Long, content: String) {
+        NLog.d("Alarm", "发送： $content")
+        AlarmManagerUtil.sendAlarmBroadcast(
+            this, time.toInt(), AlarmManager.RTC_WAKEUP,
+            time, content, AlarmReceiver::class.java
+        )
     }
 }

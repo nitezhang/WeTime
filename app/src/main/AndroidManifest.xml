@@ -45,6 +45,7 @@
             android:value="ab44e9b549551dd1a1018050b077a4c6" />
 
         <service android:name="com.amap.api.location.APSService" />
+        <receiver android:name=".utils.AlarmReceiver" />
     </application>
 
 </manifest>
