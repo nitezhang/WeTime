@@ -8,7 +8,7 @@ object TimeUtil {
         if (time.isToday()) {
             return getTodayTime(time)
         }
-        if(time.isThisYear()){
+        if (time.isThisYear()) {
             return getTime(time)
         }
         return getTimeWithYear(time)
@@ -20,13 +20,14 @@ object TimeUtil {
         val curDate = Date(time)
         return formatter.format(curDate)
     }
-    private fun getTime(time:Long):String{
+
+    private fun getTime(time: Long): String {
         val formatter = SimpleDateFormat("MM月dd日 HH:mm")//得到当前的时间
         val curDate = Date(time)
         return formatter.format(curDate)
     }
 
-    private fun getTodayTime(time: Long): String {
+    fun getTodayTime(time: Long): String {
         val formatter = SimpleDateFormat("HH:mm")//得到当前的时间
         val curDate = Date(time)
         return formatter.format(curDate)

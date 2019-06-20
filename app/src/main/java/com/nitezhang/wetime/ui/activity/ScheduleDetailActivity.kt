@@ -1,5 +1,6 @@
 package com.nitezhang.wetime.ui.activity
 
+import android.app.Activity
 import android.app.AlarmManager
 import android.os.Bundle
 import android.view.View
@@ -7,11 +8,13 @@ import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
+import com.amap.api.location.AMapLocation
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.ScheduleInfo
 import com.nitezhang.wetime.data.ScheduleInfoManager
 import com.nitezhang.wetime.utils.AlarmManagerUtil
 import com.nitezhang.wetime.utils.AlarmReceiver
+import com.nitezhang.wetime.utils.LocationUtil
 import com.nitezhang.wetime.utils.NLog
 import kotlinx.android.synthetic.main.activity_schedule_detail.*
 import java.util.*
@@ -29,12 +32,22 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
         if (mPosition != -1) {
             ed_content.setText(ScheduleInfoManager.schedules[mPosition].content)
             calendar.timeInMillis = ScheduleInfoManager.schedules[mPosition].time
+            tv_location.text = ScheduleInfoManager.schedules[mPosition].address
+            cb_is_remind.isChecked = ScheduleInfoManager.schedules[mPosition].isRemind
         } else {
             calendar.timeInMillis = ScheduleInfoManager.calendar.timeInMillis
+            LocationUtil.setListener(object : LocationUtil.LocationListener {
+                override fun onSuccess(location: AMapLocation) {
+                    tv_location.text = location.poiName
+                }
+
+            })
+            LocationUtil.onCreate(this)
         }
         ed_content.performClick()
         setTime()
         setDate()
+
     }
 
     override fun getTitleBar(): View? {
@@ -154,15 +167,23 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             }
             if (text.isNotEmpty()) {
                 if (mPosition == -1) {
-                    ScheduleInfo(text, calendar.timeInMillis).save()
+                    ScheduleInfo(
+                        text,
+                        calendar.timeInMillis,
+                        tv_location.text.toString(),
+                        cb_is_remind.isChecked
+                    ).save()
                 } else {
                     val schedule = ScheduleInfoManager.schedules[mPosition]
                     schedule.content = text
                     schedule.time = calendar.timeInMillis
                     schedule.save()
                 }
-                sendAlarmBroadcast(calendar.timeInMillis, text)
+                if (cb_is_remind.isChecked) {
+                    sendAlarmBroadcast(calendar.timeInMillis, text)
+                }
             }
+            setResult(Activity.RESULT_OK)
         }
         super.onBackPressed()
     }
