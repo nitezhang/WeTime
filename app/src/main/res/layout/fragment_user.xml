@@ -74,15 +74,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cv_user"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/layout_tomato_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:foreground="?attr/selectableItemBackground">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:src="@drawable/icon_tomato_time"
+                android:layout_width="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -117,7 +123,10 @@
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:src="@drawable/icon_note_recycle"
+                android:layout_width="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -150,7 +159,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:src="@drawable/icon_more"
+                android:layout_width="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -183,7 +195,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:src="@drawable/icon_setting"
+                android:layout_width="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:layout_height="wrap_content" />
 
             <TextView

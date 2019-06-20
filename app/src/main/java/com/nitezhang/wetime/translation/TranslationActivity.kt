@@ -11,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observer
+import retrofit2.create
 
 
 class TranslationActivity : BaseActivity() {
@@ -28,7 +29,7 @@ class TranslationActivity : BaseActivity() {
             .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava
             .build()
-            .create<TranslationInterface>(TranslationInterface::class.java)//创建 网络请求接口 的实例
+            .create<TranslationInterface>()//创建 网络请求接口 的实例
             .getObservable("I love you")//采用Observable<...>形式 对 网络请求 进行封装
             .subscribeOn(Schedulers.io())               // 在IO线程进行网络请求
             .observeOn(AndroidSchedulers.mainThread())  // 回到主线程 处理请求结果

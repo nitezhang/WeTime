@@ -2,6 +2,7 @@ package com.nitezhang.wetime.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.nitezhang.wetime.R
+import com.nitezhang.wetime.ui.activity.TomatoTimeActivity
 
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -22,6 +24,11 @@ class AlarmReceiver : BroadcastReceiver() {
         NLog.d("Alarm", "从服务启动广播：at $content")
         val channelId = content
         val channelName = "channel_chat"
+        val appIntent = Intent(context, TomatoTimeActivity::class.java)
+        appIntent.action = Intent.ACTION_MAIN
+        appIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+        appIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED//关键的一步，设置启动模式
+        val contentIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel =
@@ -40,6 +47,7 @@ class AlarmReceiver : BroadcastReceiver() {
                         R.drawable.icon_main_schedule_selected
                     )
                 )
+                .setContentIntent(contentIntent)
                 .build()
             val notifiId = 1
             notificationManager.notify(notifiId, notification)
