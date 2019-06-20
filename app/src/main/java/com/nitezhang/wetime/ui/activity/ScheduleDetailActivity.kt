@@ -39,6 +39,8 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             LocationUtil.setListener(object : LocationUtil.LocationListener {
                 override fun onSuccess(location: AMapLocation) {
                     tv_location.text = location.poiName
+                    LocationUtil.onStop()
+                    LocationUtil.onDestroy()
                 }
 
             })

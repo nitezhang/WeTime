@@ -8,5 +8,4 @@ data class ScheduleInfo(
     var time: Long = System.currentTimeMillis(),
     val address: String,
     val isRemind: Boolean
-) :
-    LitePalSupport()
+) : LitePalSupport()
