@@ -193,7 +193,7 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
     private fun sendAlarmBroadcast(time: Long, content: String) {
         NLog.d("Alarm", "发送： $content")
         AlarmManagerUtil.sendAlarmBroadcast(
-            this, time.toInt(), AlarmManager.RTC_WAKEUP,
+            this, time.toInt() + System.currentTimeMillis().toInt(), AlarmManager.RTC_WAKEUP,
             time, content, AlarmReceiver::class.java
         )
     }
