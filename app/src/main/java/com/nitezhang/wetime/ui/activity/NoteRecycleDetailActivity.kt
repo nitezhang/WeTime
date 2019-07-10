@@ -14,7 +14,7 @@ class NoteRecycleDetailActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_recycle_detail)
         mPosition = intent.getIntExtra("position", -1)
-        from = intent.getStringExtra("from")
+        from = intent.getStringExtra("from") as String
         toolbar_restore.setOnClickListener(this)
         toolbar_back.setOnClickListener(this)
 

@@ -14,7 +14,7 @@ class NoteDetailActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_detail)
         mPosition = intent.getIntExtra("position", -1)
-        from = intent.getStringExtra("from")
+        from = intent.getStringExtra("from") as String
         toolbar_delete.setOnClickListener(this)
         toolbar_back.setOnClickListener(this)
         if (mPosition != -1) {

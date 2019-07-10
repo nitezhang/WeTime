@@ -22,20 +22,20 @@ class AlarmReceiver : BroadcastReceiver() {
 //        )
         val content = intent.getStringExtra("content")
         NLog.d("Alarm", "从服务启动广播：at $content")
-        val channelId = content
+        val channelId = content as String
         val channelName = "channel_chat"
         val appIntent = Intent(context, TomatoTimeActivity::class.java)
         appIntent.action = Intent.ACTION_MAIN
         appIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         appIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED//关键的一步，设置启动模式
-        val contentIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        val contentIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel =
                 NotificationChannel(channelId, channelName, importance)
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-            val notification = NotificationCompat.Builder(context)
+            val notification = NotificationCompat.Builder(context, channelId)
                 .setContentTitle("时间到了")
                 .setContentText(content)
                 .setChannelId(channelId)
@@ -49,8 +49,8 @@ class AlarmReceiver : BroadcastReceiver() {
                 )
                 .setContentIntent(contentIntent)
                 .build()
-            val notifiId = 1
-            notificationManager.notify(notifiId, notification)
+            val notifyId = 1
+            notificationManager.notify(notifyId, notification)
         }
 
 

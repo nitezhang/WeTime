@@ -79,15 +79,15 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             builder.setView(view)
             builder.setTitle("设置时间信息")
             builder.setPositiveButton("确  定") { dialog, _ ->
-                val sb = StringBuffer()
-                sb.append(
+                val buffer = StringBuffer()
+                buffer.append(
                     String.format(
                         "%02d:%02d",
                         timePicker.hour,
                         timePicker.minute
                     )
                 )
-                tv_time.text = sb
+                tv_time.text = buffer
                 calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
                 calendar.set(Calendar.MINUTE, timePicker.minute)
                 calendar.set(Calendar.SECOND, 0)
@@ -125,8 +125,8 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             builder.setTitle("设置日期信息")
             builder.setPositiveButton("确  定") { dialog, _ ->
                 //日期格式
-                val sb = StringBuffer()
-                sb.append(
+                val buffer = StringBuffer()
+                buffer.append(
                     String.format(
                         "%d-%02d-%02d",
                         datePicker.year,
@@ -134,7 +134,7 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
                         datePicker.dayOfMonth
                     )
                 )
-                tv_date.text = sb
+                tv_date.text = buffer
                 calendar.set(Calendar.YEAR, datePicker.year)
                 calendar.set(Calendar.MONTH, datePicker.month)
                 calendar.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
