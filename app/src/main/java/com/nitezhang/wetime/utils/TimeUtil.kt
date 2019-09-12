@@ -16,19 +16,19 @@ object TimeUtil {
     }
 
     private fun getTimeWithYear(time: Long): String {
-        val formatter = SimpleDateFormat("yyyy年MM月dd日 HH:mm")//得到当前的时间
+        val formatter = SimpleDateFormat("yyyy年MM月dd日 HH:mm", Locale.getDefault())//得到当前的时间
         val curDate = Date(time)
         return formatter.format(curDate)
     }
 
     private fun getTime(time: Long): String {
-        val formatter = SimpleDateFormat("MM月dd日 HH:mm")//得到当前的时间
+        val formatter = SimpleDateFormat("MM月dd日 HH:mm", Locale.getDefault())//得到当前的时间
         val curDate = Date(time)
         return formatter.format(curDate)
     }
 
     fun getTodayTime(time: Long): String {
-        val formatter = SimpleDateFormat("HH:mm")//得到当前的时间
+        val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())//得到当前的时间
         val curDate = Date(time)
         return formatter.format(curDate)
     }
@@ -37,7 +37,6 @@ object TimeUtil {
     /**
      * 判断是否为今天(效率比较高)
      *
-     * @param day 传入的 时间  "2016-06-28 10:10:30" "2016-06-28" 都可以
      * @return true今天 false不是
      */
     private fun Long.isToday(): Boolean {
@@ -72,7 +71,6 @@ object TimeUtil {
     /**
      * 判断是否为昨天(效率比较高)
      *
-     * @param day 传入的 时间  "2016-06-28 10:10:30" "2016-06-28" 都可以
      * @return true今天 false不是
      */
     fun Long.isYesterday(): Boolean {

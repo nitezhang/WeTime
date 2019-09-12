@@ -53,11 +53,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0-beta04'
     //高德地图
-    implementation 'com.amap.api:3dmap:6.9.0'
+    implementation 'com.amap.api:3dmap:6.9.4'
     //高德定位
-    implementation 'com.amap.api:location:4.6.0'
+    implementation 'com.amap.api:location:4.7.0'
     //Retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     //RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
     //RxAndroid
@@ -65,7 +65,7 @@ dependencies {
     //RxKotlin
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
