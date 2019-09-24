@@ -5,5 +5,5 @@ import kotlin.collections.ArrayList
 
 object ScheduleInfoManager {
     var schedules: List<ScheduleInfo> = ArrayList()
-    var calendar = Calendar.getInstance()
+    var calendar: Calendar = Calendar.getInstance()
 }

@@ -46,7 +46,7 @@ object LocationUtil {
         listeners.clear()
     }
 
-    fun setListener(listener: LocationListener) {
+    fun addListener(listener: LocationListener) {
         listeners.add(listener)
     }
 

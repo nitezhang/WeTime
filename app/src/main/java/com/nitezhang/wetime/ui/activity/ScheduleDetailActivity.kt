@@ -36,7 +36,7 @@ class ScheduleDetailActivity : BaseActivity(), View.OnClickListener {
             cb_is_remind.isChecked = ScheduleInfoManager.schedules[mPosition].isRemind
         } else {
             calendar.timeInMillis = ScheduleInfoManager.calendar.timeInMillis
-            LocationUtil.setListener(object : LocationUtil.LocationListener {
+            LocationUtil.addListener(object : LocationUtil.LocationListener {
                 override fun onSuccess(location: AMapLocation) {
                     tv_location.text = location.poiName
                     LocationUtil.onStop()
