@@ -3,7 +3,7 @@ package com.nitezhang.wetime.ui.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.gyf.barlibrary.ImmersionBar
+import com.gyf.immersionbar.ImmersionBar
 import com.nitezhang.wetime.utils.NLog
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -23,7 +23,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         NLog.d(TAG, NLog.TEST, "onDestroy")
         super.onDestroy()
-        ImmersionBar.with(this).destroy()
     }
 
     protected open fun initImmersionBar() {

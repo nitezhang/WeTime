@@ -4,7 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.gyf.barlibrary.ImmersionBar
+import com.gyf.immersionbar.ImmersionBar
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.NoteInfo
 import com.nitezhang.wetime.data.NoteInfoManager
