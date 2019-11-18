@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_back"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="15dp"
         android:scaleType="fitCenter"
         android:src="@drawable/icon_back" />
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="end"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
