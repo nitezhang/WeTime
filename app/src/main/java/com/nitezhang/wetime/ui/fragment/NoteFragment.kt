@@ -25,6 +25,7 @@ class NoteFragment : BaseFragment() {
     }
 
     override fun View.onCreateView() {
+        ImmersionBar.with(this@NoteFragment).statusBarDarkFont(true).init()
         recyclerView = rv_note
         setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -61,6 +62,7 @@ class NoteFragment : BaseFragment() {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             getData()
+            ImmersionBar.with(this).statusBarDarkFont(true).init()
         }
     }
 

@@ -7,17 +7,17 @@ import com.gyf.immersionbar.ImmersionBar
 import com.nitezhang.wetime.utils.NLog
 
 abstract class BaseActivity : AppCompatActivity() {
-    val TAG= this.javaClass.name
+    val TAG = this.javaClass.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         NLog.d(TAG, NLog.TEST, "onCreate")
         super.onCreate(savedInstanceState)
+        initImmersionBar()
     }
 
     override fun onStart() {
         NLog.d(TAG, NLog.TEST, "onStart")
         super.onStart()
-        initImmersionBar()
     }
 
     override fun onDestroy() {

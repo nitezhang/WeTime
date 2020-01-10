@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gyf.immersionbar.ImmersionBar
 import com.necer.entity.NDate
 import com.necer.listener.OnCalendarChangedListener
 import com.nitezhang.wetime.R
@@ -28,6 +29,7 @@ class ScheduleFragment : BaseFragment() {
     }
 
     override fun View.onCreateView() {
+        ImmersionBar.with(this@ScheduleFragment).statusBarDarkFont(false).init()
         recyclerView = rv_schedule
 //        setPadding(0, ImmersionBar.getStatusBarHeight(activity!!), 0, 0)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -74,6 +76,12 @@ class ScheduleFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         getData()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        if (!hidden) {
+            ImmersionBar.with(this).statusBarDarkFont(false).init()
+        }
     }
 
 }

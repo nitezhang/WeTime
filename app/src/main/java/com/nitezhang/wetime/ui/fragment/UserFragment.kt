@@ -3,6 +3,7 @@ package com.nitezhang.wetime.ui.fragment
 import android.content.Intent
 import android.view.View
 import android.widget.TextView
+import com.gyf.immersionbar.ImmersionBar
 import com.nitezhang.wetime.R
 import com.nitezhang.wetime.data.UserInfo
 import com.nitezhang.wetime.data.UserInfoManager
@@ -22,6 +23,7 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun View.onCreateView() {
+        ImmersionBar.with(this@UserFragment).statusBarDarkFont(false).init()
         layout_note_recycle.setOnClickListener(this@UserFragment)
         layout_tomato_time.setOnClickListener(this@UserFragment)
         cv_user.setOnClickListener(this@UserFragment)
@@ -60,5 +62,11 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         getData()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        if (!hidden) {
+            ImmersionBar.with(this).statusBarDarkFont(false).init()
+        }
     }
 }
